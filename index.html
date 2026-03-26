@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charity Water Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="page">
+        <header class="hud">
+            <h1>Charity: Water Collection Run</h1>
+            <div class="hud-stats">
+                <p>Score: <span id="score">0</span></p>
+                <p id="status">Collect items, avoid the enemy, and reach the green finish zone any time.</p>
+            </div>
+            <div class="controls-row">
+                <button id="dashButton" type="button">Dash (Space)</button>
+                <button id="restartButton" type="button">Restart</button>
+                <p id="dashCooldown" aria-live="polite">Dash ready</p>
+            </div>
+        </header>
+
+        <section class="game-panel">
+            <div id="gameMap" class="game-map" aria-label="2D game map" role="application">
+                <div id="finishZone" class="finish-zone">Finish</div>
+                <div id="player" class="player" aria-label="Player"></div>
+                <div id="enemy" class="enemy" aria-label="Enemy"></div>
+            </div>
+        </section>
+
+        <section class="mobile-controls" aria-label="Mobile controls">
+            <div class="dpad" role="group" aria-label="Movement pad">
+                <button type="button" class="dpad-btn dpad-up" data-move="up">▲</button>
+                <button type="button" class="dpad-btn dpad-left" data-move="left">◀</button>
+                <button type="button" class="dpad-btn dpad-right" data-move="right">▶</button>
+                <button type="button" class="dpad-btn dpad-down" data-move="down">▼</button>
+            </div>
+            <button id="mobileDashButton" type="button" class="mobile-dash-btn">Dash</button>
+        </section>
+
+        <p class="instructions">Move with W A S D or Arrow Keys. Press Space or Dash button to dash.</p>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
