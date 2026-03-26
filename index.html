@@ -7,9 +7,16 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <main class="page">
+    <div id="startMenu" class="start-menu">
+        <div class="menu-content">
+            <h1>Charity Water Run</h1>
+            <p>Collect water bottles and jerrycans to save lives!</p>
+            <button id="playButton" class="play-button" type="button">Play</button>
+        </div>
+    </div>
+    <main class="page" id="gamePage" style="display: none;">
         <header class="hud">
-            <h1>Charity: Water Collection Run</h1>
+            <h1>Charity Water Run</h1>
             <div class="hud-stats">
                 <p>Score: <span id="score">0</span></p>
                 <p id="status">Collect items, avoid the enemy, and reach the green finish zone any time.</p>
@@ -19,6 +26,18 @@
                 <button id="restartButton" type="button">Restart</button>
                 <p id="dashCooldown" aria-live="polite">Dash ready</p>
             </div>
+            <div class="difficulty-selector">
+                <label for="difficultySelect">Difficulty:</label>
+                <select id="difficultySelect" aria-label="Game difficulty level">
+                    <option value="normal">Normal</option>
+                    <option value="hard">Hard</option>
+                </select>
+                <span class="difficulty-info">Hard mode = enemy speed +25%</span>
+            </div>
+            <div class="token-guide">
+                <p><img src="img/jerrycan-blue.png" alt="Jerrycan" class="token-img"> = 2 points</p>
+                <p><img src="img/water-bottle-blue.jpg" alt="Water bottle" class="token-img"> = 1 point</p>
+            </div>
         </header>
 
         <section class="game-panel">
@@ -27,6 +46,11 @@
                 <div id="player" class="player" aria-label="Player"></div>
                 <div id="enemy" class="enemy" aria-label="Enemy"></div>
             </div>
+        </section>
+
+        <section class="donate-section">
+            <p>Make a difference:</p>
+            <a href="https://www.charitywater.org/donate" target="_blank" rel="noopener noreferrer" class="donate-link">Donate to Charity Water</a>
         </section>
 
         <section class="mobile-controls" aria-label="Mobile controls">

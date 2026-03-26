@@ -9,18 +9,22 @@ const restartButtonElement = document.getElementById('restartButton');
 const dashCooldownElement = document.getElementById('dashCooldown');
 const mobileDashButtonElement = document.getElementById('mobileDashButton');
 const dpadButtons = document.querySelectorAll('[data-move]');
+const difficultySelectElement = document.getElementById('difficultySelect');
+const startMenuElement = document.getElementById('startMenu');
+const gamePageElement = document.getElementById('gamePage');
+const playButtonElement = document.getElementById('playButton');
 
 const player = {
 	x: 220,
 	y: 220,
-	size: 28,
+	size: 22,
 	speed: 3
 };
 
 const enemy = {
 	x: 500,
 	y: 320,
-	size: 28,
+	size: 22,
 	baseSpeed: player.speed * 0.5,
 	speedGrowthPerSecond: 0.05
 };
@@ -36,6 +40,7 @@ const items = [];
 const keys = {};
 let score = 0;
 let gameOver = false;
+let difficulty = 'normal';
 const dashDistance = 70;
 const dashCooldownMs = 1000;
 let lastDashTime = -dashCooldownMs;
@@ -65,6 +70,11 @@ document.addEventListener('keyup', (event) => {
 
 function randomRange(min, max) {
 	return Math.random() * (max - min) + min;
+}
+
+function getDifficultyMultiplier() {
+	// Hard mode makes enemy speed 25% faster
+	return difficulty === 'hard' ? 1.25 : 1;
 }
 
 function setMoveKey(direction, isPressed) {
@@ -109,7 +119,7 @@ function randomItemPosition(mapWidth, mapHeight, itemSize) {
 function spawnTwoItems() {
 	const mapWidth = gameMap.clientWidth;
 	const mapHeight = gameMap.clientHeight;
-	const size = 20;
+	const size = 32;
 
 	removeAllItems();
 
@@ -241,7 +251,8 @@ function moveEnemy() {
 	const dy = player.y - enemy.y;
 	const distance = Math.hypot(dx, dy) || 1;
 	const elapsedSeconds = (performance.now() - gameStartTime) / 1000;
-	const enemySpeed = enemy.baseSpeed + elapsedSeconds * enemy.speedGrowthPerSecond;
+	const basedEnemySpeed = enemy.baseSpeed + elapsedSeconds * enemy.speedGrowthPerSecond;
+	const enemySpeed = basedEnemySpeed * getDifficultyMultiplier();
 
 	enemy.x += (dx / distance) * enemySpeed;
 	enemy.y += (dy / distance) * enemySpeed;
@@ -322,6 +333,16 @@ function render() {
 	updateElementPosition(enemyElement, enemy.x, enemy.y);
 }
 
+function showMenu() {
+	startMenuElement.style.display = 'flex';
+	gamePageElement.style.display = 'none';
+}
+
+function hideMenu() {
+	startMenuElement.style.display = 'none';
+	gamePageElement.style.display = 'grid';
+}
+
 function gameLoop() {
 	if (gameOver) {
 		updateDashUI();
@@ -345,6 +366,8 @@ function startGame() {
 		cancelAnimationFrame(animationFrameId);
 		animationFrameId = null;
 	}
+
+	hideMenu();
 
 	// Keep finish zone dimensions in sync with CSS (including responsive changes).
 	const finishRect = finishZoneElement.getBoundingClientRect();
@@ -422,4 +445,12 @@ mobileDashButtonElement.addEventListener('pointerdown', (event) => {
 	tryDash();
 });
 
-startGame();
+difficultySelectElement.addEventListener('change', (event) => {
+	difficulty = event.target.value;
+});
+
+playButtonElement.addEventListener('click', () => {
+	startGame();
+});
+
+showMenu();
